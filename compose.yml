@@ -1,0 +1,24 @@
+services:
+  comfyui:
+    image: nvcr.io/nvidia/pytorch:22.01-py3
+    volumes:
+      - ./ComfyUI:/ComfyUI
+    command:
+      - /bin/bash
+      - -c
+      - |
+        apt update
+        apt install -y git python3-pip libgl1-mesa-dev libglib2.0-0
+        pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+        cd /ComfyUI/
+        pip3 install -r requirements.txt
+        python main.py --listen
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: ["gpu"]
+    ports:
+      - "8188:8188"
