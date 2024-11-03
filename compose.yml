@@ -27,4 +27,5 @@ services:
               count: all
               capabilities: ["gpu"]
     ports:
-      - "8188:8188"
+      # host:container
+      - "8888:8188"
