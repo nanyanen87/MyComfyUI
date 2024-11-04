@@ -28,4 +28,5 @@ services:
               capabilities: ["gpu"]
     ports:
       # host:container
-      - "8888:8188"
+      - "8188:8188" # http
+      - "9090:8188" # websocket
