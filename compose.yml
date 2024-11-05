@@ -17,12 +17,6 @@ services:
         if [ ! -L /ComfyUI/custom_nodes/ComfyUI-Manager ]; then
           ln -s /ComfyUI-Manager /ComfyUI/custom_nodes/ComfyUI-Manager;
         fi
-        # modelsのシンボリックリンクを作成
-        for file in $(ls /models/${model}); do
-          if [ ! -L /ComfyUI/models/${model}/${file} ]; then
-            ln -s /models/${model/${file} /ComfyUI/models/${model}/${file}
-          fi
-        done
         # main.pyを実行
         python main.py --listen
     deploy:
