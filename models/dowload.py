@@ -8,7 +8,8 @@ import json
 # 現在のスクリプトのディレクトリを取得
 script_dir = os.path.dirname(os.path.abspath(__file__))
 # huggingfaceのcacheディレクトリのdefault path
-HUGGINGFACE_CACHE_PATH = os.path.expanduser("~/.cache/huggingface/hub")
+src_path = os.path.join(script_dir, "..")
+HUGGINGFACE_CACHE_PATH = os.path.join(src_path, "hug/cache")
 # comfyuiのmodelディレクトリのpath
 COMFYUI_MODEL_PATH = os.path.join(script_dir, "..", "ComfyUI/models")
 # input.jsonからモデルの情報をリストで準備
@@ -23,20 +24,19 @@ for model in models:
     filename = model["filename"]
 
     # ファイルの存在を確認
-    file_path = os.path.join(HUGGINGFACE_CACHE_PATH, filename)
+    file_path = os.path.join(src_path, filename)
 
     if os.path.exists(file_path):
         print(f"'{filename}' はすでに存在します。ダウンロードはスキップします。")
     else:
         # モデルをダウンロード
         try:
-            model_path = hf_hub_download(repo_id=repo_id, filename=filename)  # cache_dirを指定しないことでデフォルトを使用
+            model_path = hf_hub_download(repo_id=repo_id, filename=filename, cache_dir=HUGGINGFACE_CACHE_PATH)  # cache_dirを指定しないことでデフォルトを使用
             print(f"'{filename}' をダウンロードしました: {model_path}")
         except Exception as e:
             print(f"'{filename}' のダウンロード中にエラーが発生しました: {e}")
 
 # シンボリックリンクの作成
-
 for model in models:
     # huggingface の　cacheディレクトリの構造
     # repo_id : PvDeep/Add-Detail-XL　->　models--PvDeep--Add-Detail-XL
@@ -45,7 +45,7 @@ for model in models:
     model_name_dir = 'models--' + model['repo_id'].replace('/', '--')
     blob_dir = os.path.join(HUGGINGFACE_CACHE_PATH, model_name_dir,'blobs')
     blob_file = glob.glob(blob_dir + "/*")
-    hugging_blob_path = os.path.join(HUGGINGFACE_CACHE_PATH, 'blob', blob_file[0])
+    hugging_blob_path = os.path.join(blob_dir, 'blob', blob_file[0])
     # blobファイルの存在を確認
     if not os.path.exists(hugging_blob_path):
         print(f"'{hugging_blob_path}' が存在しません。シンボリックリンクの作成はスキップします。")
