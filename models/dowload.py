@@ -1,36 +1,21 @@
 from huggingface_hub import hf_hub_download
 import os
 import glob
+import json
 
 
-# $home/.cache/huggingface/hubにモデルをダウンロードする
+
 # 現在のスクリプトのディレクトリを取得
 script_dir = os.path.dirname(os.path.abspath(__file__))
-
-# モデルの情報をリストで準備
-models = [
-    {
-        "repo_id": "PvDeep/Add-Detail-XL",
-        "filename": "add-detail-xl.safetensors",
-        "model_type": "loras"
-    },
-    {
-        "repo_id": "zdouble/model",
-        "filename": "animagineXLV31_v31.safetensors",
-        "model_type": "checkpoints"
-    },
-    {
-        "repo_id": "lllyasviel/sd_control_collection",
-        "filename": "diffusers_xl_depth_full.safetensors",
-        "model_type": "controlnet"
-    },
-    {
-        "repo_id": "stabilityai/sdxl-vae",
-        "filename": "sdxl_vae.safetensors",
-        "model_type": "vae"
-    },
-    # 必要なモデル情報を追加
-]
+# huggingfaceのcacheディレクトリのdefault path
+HUGGINGFACE_CACHE_PATH = os.path.expanduser("~/.cache/huggingface/hub")
+# comfyuiのmodelディレクトリのpath
+COMFYUI_MODEL_PATH = os.path.join(script_dir, "..", "ComfyUI/models")
+# input.jsonからモデルの情報をリストで準備
+models = json.load(open(os.path.join(script_dir, "input.json")))
+#     "repo_id": "PvDeep/Add-Detail-XL", # huggingfaceのモデルのリポジトリID
+#     "filename": "add-detail-xl.safetensors", # huggingfaceのモデルのファイル名
+#     "model_type": "loras" # comfyuiのモデルのディレクトリ名、分類は雰囲気で
 
 # 各モデルをデフォルトのキャッシュディレクトリにダウンロード
 for model in models:
@@ -38,7 +23,7 @@ for model in models:
     filename = model["filename"]
 
     # ファイルの存在を確認
-    file_path = os.path.join(os.path.expanduser("~/.cache/huggingface/hub"), filename)  # デフォルトのキャッシュディレクトリのパスを組み立てる
+    file_path = os.path.join(HUGGINGFACE_CACHE_PATH, filename)
 
     if os.path.exists(file_path):
         print(f"'{filename}' はすでに存在します。ダウンロードはスキップします。")
@@ -51,12 +36,12 @@ for model in models:
             print(f"'{filename}' のダウンロード中にエラーが発生しました: {e}")
 
 # シンボリックリンクの作成
-COMFYUI_MODEL_PATH = os.path.join(script_dir, "..", "ComfyUI/models")
-HUGGINGFACE_CACHE_PATH = os.path.expanduser("~/.cache/huggingface/hub")
+
 for model in models:
-    # 指定したディレクトリのファイルを取得
-    # dir models--PvDeep--Add-Detail-XL
-    # repo_id : PvDeep/Add-Detail-XL
+    # huggingface の　cacheディレクトリの構造
+    # repo_id : PvDeep/Add-Detail-XL　->　models--PvDeep--Add-Detail-XL
+    # https://huggingface.co/docs/huggingface_hub/guides/manage-cache
+
     model_name_dir = 'models--' + model['repo_id'].replace('/', '--')
     blob_dir = os.path.join(HUGGINGFACE_CACHE_PATH, model_name_dir,'blobs')
     blob_file = glob.glob(blob_dir + "/*")

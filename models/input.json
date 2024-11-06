@@ -1,0 +1,22 @@
+[
+  {
+    "repo_id": "PvDeep/Add-Detail-XL",
+    "filename": "add-detail-xl.safetensors",
+    "model_type": "loras"
+  },
+  {
+    "repo_id": "zdouble/model",
+    "filename": "animagineXLV31_v31.safetensors",
+    "model_type": "checkpoints"
+  },
+  {
+    "repo_id": "lllyasviel/sd_control_collection",
+    "filename": "diffusers_xl_depth_full.safetensors",
+    "model_type": "controlnet"
+  },
+  {
+    "repo_id": "stabilityai/sdxl-vae",
+    "filename": "sdxl_vae.safetensors",
+    "model_type": "vae"
+  }
+]

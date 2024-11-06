@@ -17,6 +17,10 @@ services:
         if [ ! -L /ComfyUI/custom_nodes/ComfyUI-Manager ]; then
           ln -s /ComfyUI-Manager /ComfyUI/custom_nodes/ComfyUI-Manager;
         fi
+        # inputのシンボリックリンク作成
+        if [ ! -L /ComfyUI/input ]; then
+          ln -s /input /ComfyUI/input;
+        fi
         # main.pyを実行
         python main.py --listen
     deploy:
