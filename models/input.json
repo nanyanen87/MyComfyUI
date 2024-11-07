@@ -1,25 +1,25 @@
 [
   {
     "repo_id": "PvDeep/Add-Detail-XL",
-    "filename": "add-detail-xl.safetensors",
+    "file_name": "add-detail-xl.safetensors",
     "download_url": "https://huggingface.co/PvDeep/Add-Detail-XL/resolve/main/add-detail-xl.safetensors",
     "model_type": "loras"
   },
   {
     "repo_id": "zdouble/model",
-    "filename": "animagineXLV31_v31.safetensors",
+    "file_name": "animagineXLV31_v31.safetensors",
     "download_url": "https://huggingface.co/zdouble/model/resolve/main/animagineXLV31_v31.safetensors",
     "model_type": "checkpoints"
   },
   {
     "repo_id": "lllyasviel/sd_control_collection",
-    "filename": "diffusers_xl_depth_full.safetensors",
+    "file_name": "diffusers_xl_depth_full.safetensors",
     "download_url": "https://huggingface.co/lllyasviel/sd_control_collection/resolve/05cb13f62356f78d7c3a4ef10e460c5cda6bef8b/diffusers_xl_depth_full.safetensors",
     "model_type": "controlnet"
   },
   {
     "repo_id": "stabilityai/sdxl-vae",
-    "filename": "sdxl_vae.safetensors",
+    "file_name": "sdxl_vae.safetensors",
     "download_url": "https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors",
     "model_type": "vae"
   }
