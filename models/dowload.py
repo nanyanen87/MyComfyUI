@@ -1,6 +1,6 @@
 # from huggingface_hub import hf_hub_download
-import os
 import glob
+import os
 import json
 import subprocess
 
@@ -8,9 +8,7 @@ import subprocess
 
 # 現在のスクリプトのディレクトリを取得
 script_dir = os.path.dirname(os.path.abspath(__file__))
-# huggingfaceのcacheディレクトリのdefault path
 src_path = os.path.join(script_dir, "..")
-# HUGGINGFACE_CACHE_PATH = os.path.join(src_path, "hug/cache")
 # comfyuiのmodelディレクトリのpath
 COMFYUI_MODEL_PATH = os.path.join(script_dir, "..", "ComfyUI/models")
 # input.jsonからモデルの情報をリストで準備
@@ -49,7 +47,6 @@ for model in models:
         print(f"Downloaded {file_name} to {output_path}")
     except subprocess.CalledProcessError as e:
         print(f"Failed to download {file_name} from {download_url}: {e}")
-
 
 
 

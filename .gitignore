@@ -1,4 +1,1 @@
-/models/*/*
-!models/*/*.gitkeep
 .idea/*
-hug/cache/*

@@ -11,6 +11,8 @@ services:
         apt update
         apt install -y git python3-pip libgl1-mesa-dev libglib2.0-0
         pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+        # modelのdownload
+        python /models/download.py
         cd /ComfyUI/
         pip3 install -r requirements.txt
         # シンボリックリンクを作成
@@ -33,3 +35,5 @@ services:
       # host:container
       - "8188:8188" # http
       - "9090:8188" # websocket
+    networks:
+      - comfyui
