@@ -36,4 +36,8 @@ services:
       - "8188:8188" # http
       - "9090:8188" # websocket
     networks:
-      - comfyui
+      my-network:
+        aliases:
+          - comfyui  # コンテナのホスト名
+networks:
+  my-network:
