@@ -1,40 +1,33 @@
 services:
   comfyui:
-    image: nvcr.io/nvidia/pytorch:22.01-py3
+    image: nvcr.io/nvidia/pytorch:24.10-py3
     volumes:
       - ./ComfyUI:/ComfyUI
-      - ./ComfyUI-Manager:/ComfyUI-Manager  # ComfyUI-Managerをコンテナ内にマウント
+      - ./ComfyUI-Manager:/ComfyUI/custom_nodes/ComfyUI-Manager
+      - ./input:/ComfyUI/input # 自分カスタム用
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
     command:
       - /bin/bash
       - -c
       - |
-        apt update
-        apt install -y git python3-pip libgl1-mesa-dev libglib2.0-0
-        pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-        # modelのdownload
-        # python /models/download.py
         cd /ComfyUI/
         pip3 install -r requirements.txt
-        # シンボリックリンクを作成
-        if [ ! -L /ComfyUI/custom_nodes/ComfyUI-Manager ]; then
-          ln -s /ComfyUI-Manager /ComfyUI/custom_nodes/ComfyUI-Manager;
-        fi
-        # inputのシンボリックリンク作成
-        if [ ! -L /ComfyUI/input ]; then
-          ln -s /input /ComfyUI/input;
-        fi
-        # main.pyを実行
-        python main.py --listen
+        pip3 install -r custom_nodes/ComfyUI-Manager/requirements.txt
+        python3 main.py --listen
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
+              count: all
               capabilities: ["gpu"]
+    #command: ["sleep", "infinity"] # debug用コンテナが終了しないようにする
     ports:
       # host:container
-      - "8188:8188" # http
-      - "9090:8188" # websocket
+      - "8188:8188"
     networks:
       my-network:
         aliases:
