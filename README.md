@@ -2,18 +2,21 @@
 
 このプロジェクトは、Docker Composeを使用してComfyUIサーバーをセットアップします。<br>
 自分で使用するmodelやinput imageを設定することができます。
-## 事前準備
-1. （がんばってcontainer外のGPUを使用できるようにする。）
+## 前提条件
+- nvidia-driverがinstallされていること。
+```nvidia-smi```で確認。
+- Dockerがinstallされていること。
+```docker --version```で確認。
 
-2. **モデルのダウンロード**<br>
+## セットアップ
+1. **モデルの一括ダウンロード**<br>
    ダウンロードしたいモデルは`modles/input.json`に記述し、`download.py`スクリプトを使用してモデルをダウンロードします。<br>普通にダウンロードしてもいいです。
    ```bash
    python models/download.py
    ```
-3. input imageはComfyUI-Managerがめっちゃ使いやすくなったのでいらなくなりました。
-## サーバーの起動
+2. input imageはComfyUI-Managerがめっちゃ使いやすくなったのでいらなくなりました。
+## containerの起動
 
-1. **サーバーの立ち上げ**<br>
    依存関係のセットアップとモデルのダウンロードが完了したら、以下のコマンドでComfyUIサーバーを起動します。
    ```bash
    docker compose up
